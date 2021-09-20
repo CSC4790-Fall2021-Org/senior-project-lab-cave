@@ -1,0 +1,3 @@
+﻿import viz 
+viz.go()
+
