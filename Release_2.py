@@ -100,13 +100,13 @@ manager.addSensor(sensorAvatar3)
 manager.addTarget(target)
 
 #Add some text objects
-plantText = viz.addText3D('Plant Sensor',pos=[-10.3,2,20.6],align=viz.ALIGN_CENTER_BOTTOM)
+plantText = viz.addText3D('Plant',pos=[-10.3,2,20.6],align=viz.ALIGN_CENTER_BOTTOM)
 plantText.setEuler([-40,0,0])
 
-cratesText = viz.addText3D('Crates Sensor',pos=[-9.9,2,5.7],align=viz.ALIGN_CENTER_BOTTOM)
+cratesText = viz.addText3D('Crates',pos=[-9.9,2,5.7],align=viz.ALIGN_CENTER_BOTTOM)
 cratesText.setEuler([-90,0,0])
 
-cafeText = viz.addText3D('Cafe Sensor',pos=[12,3,7.5],align=viz.ALIGN_CENTER_BOTTOM)
+cafeText = viz.addText3D('Cafe',pos=[12,3,7.5],align=viz.ALIGN_CENTER_BOTTOM)
 cafeText.setEuler([90,0,0])
 
 #Toggle debug shapes with keypress 
