@@ -108,10 +108,6 @@ cratesText.setEuler([-90,0,0])
 cafeText = viz.addText3D('Cafe Sensor',pos=[12,3,7.5],align=viz.ALIGN_CENTER_BOTTOM)
 cafeText.setEuler([90,0,0])
 
-text2D = viz.addText('2D Text',pos=[0,1,6],align=viz.ALIGN_CENTER_BOTTOM)
-textScreen = viz.addText('Screen Text',parent=viz.ORTHO,pos=[20,20,0],fontSize=50)
-
-
 #Toggle debug shapes with keypress 
 vizact.onkeydown('d',manager.setDebug,viz.TOGGLE)
 
@@ -122,7 +118,7 @@ def destinationsTask():
     DelayHide = vizact.sequence( vizact.waittime(8), vizact.method.visible(False) )
     Show = vizact.method.visible(True)
 
-    yield viztask.waitTime(12)
+    yield viztask.waitTime(8)
     instructions.setText("Walk to the potted directly ahead on the opposite side of the courtyard.")
     instructions.runAction(DelayHide)
     yield vizproximity.waitEnter(plantSensor)
