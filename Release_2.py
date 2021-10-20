@@ -98,6 +98,19 @@ manager.addSensor(sensorAvatar3)
 #Add viewpoint target to manager
 manager.addTarget(target)
 
+#Add some text objects
+plantText = viz.addText3D('Plant Sensor',pos=[-10.3,2,20.6],align=viz.ALIGN_CENTER_BOTTOM)
+plantText.setEuler([-40,0,0])
+
+cratesText = viz.addText3D('Crates Sensor',pos=[-9.9,2,5.7],align=viz.ALIGN_CENTER_BOTTOM)
+cratesText.setEuler([-90,0,0])
+
+cafeText = viz.addText3D('Cafe Sensor',pos=[12,3,7.5],align=viz.ALIGN_CENTER_BOTTOM)
+cafeText.setEuler([90,0,0])
+
+text2D = viz.addText('2D Text',pos=[0,1,6],align=viz.ALIGN_CENTER_BOTTOM)
+textScreen = viz.addText('Screen Text',parent=viz.ORTHO,pos=[20,20,0],fontSize=50)
+
 
 #Toggle debug shapes with keypress 
 vizact.onkeydown('d',manager.setDebug,viz.TOGGLE)
@@ -110,7 +123,7 @@ def destinationsTask():
     Show = vizact.method.visible(True)
 
     yield viztask.waitTime(12)
-    instructions.setText("Walk to the potted plant directly ahead on the opposite side of the courtyard.")
+    instructions.setText("Walk to the potted directly ahead on the opposite side of the courtyard.")
     instructions.runAction(DelayHide)
     yield vizproximity.waitEnter(plantSensor)
     instructions.runAction(Show)
@@ -145,3 +158,4 @@ def EnterProximity(e):
         avoidDancing = False
 
 manager.onEnter(None,EnterProximity)
+
