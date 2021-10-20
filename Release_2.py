@@ -14,7 +14,7 @@ viz.fov(60)
 viz.go()
 
 #Add info panel to display messages to participant
-instructions = vizinfo.InfoPanel(icon=False,key=None)
+instructions = vizinfo.InfoPanel(align=viz.ALIGN_CENTER,fontSize=44,icon=False,key=None)
 
 #Add ambient sound
 piazzaSound = viz.addAudio('piazza.mp3')
