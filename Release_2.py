@@ -26,6 +26,7 @@ piazza = viz.add('piazza.osgb')
 #Move the viewpoint to the starting location
 viz.MainView.move([10.5,0,20.5])
 viz.MainView.setEuler([-90,0,0])
+viz.MainView.collision( viz.ON )
 
 #Add male and female avatars in conversation
 male = viz.addAvatar('vcc_male.cfg',pos=[-2.6,0,10.4],euler=[-40,0,0])
