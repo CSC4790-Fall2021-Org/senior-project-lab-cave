@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Snowflake</title>
+
+
+<script>
+    var canvas;    // DOM object corresponding to the canvas
+    var graphics;  // 2D graphics context for drawing on the canvas
+
+    function setPixel(x, y, color) 
+    {
+        graphics.fillStyle = color;
+        graphics.fillRect(x, y, 1, 1);
+    }
+
+    function drawLine(x1, y1, x2, y2, color) {
+        if (x2 < x1) {
+            drawLine(x2, y2, x1, y1, color)
+        }
+        else {
+            var dy = y2 - y1;
+            var dx = x2 - x1;
+            var m = dy / dx;
+
+            if (m <= 1)
+                drawLineX(x1, y1, x2, y2, color)
+            else
+                drawLineY(x1,y1,x2,y2, color)
+
+        }
+    }
+    function drawLineX(x1, y1, x2, y2, color) {
+        var dy = y2 - y1;
+        var dx = x2 - x1;
+        var m = dy / dx;
+        var y = y1;
+
+        for (var x = x1; x <= x2; x++) {
+            setPixel(x, Math.round(y), color);
+            y += m;
+        }
+    }
+    function drawLineY(x1, y1, x2, y2, color) {
+        var dy = y2 - y1;
+        var dx = x2 - x1;
+        var mInv = dx / dy;
+        var x = x1;
+        for (var y = y1; y <= y2; y++) {
+            setPixel(Math.round(x),y, color);
+            x += mInv;
+        }
+    }
+
+
+    function draw() {
+        for (var i = 0; i <= canvas.width; i = i + 40) {
+            drawLine(i, 0, i, canvas.height)
+        }
+        for (var j = 0; j <= canvas.height; j = j + 40) {
+            drawLine(0, j, canvas.width, j)
+        }
+        drawLine(399, 0, 399, 399, "black");
+        drawLine(0, 399, 399, 399, "black");
+
+        drawLine(200, 40, 200, 360, "red");
+        drawLine(40, 120, 360, 280, "orange");
+        drawLine(40, 280, 360, 120, "yellow");
+        drawLine(40, 200, 360, 200, "green");
+        drawLine(120, 40, 280, 360, "blue");
+        drawLine(280, 40, 120, 360, "purple");
+    }
+
+    function main() {
+        canvas = document.getElementById("theCanvas");
+        graphics = canvas.getContext("2d");
+        draw();  // draw something on the canvas
+    }
+</script>
+
+</head>
+<body onload="main()">
+    <canvas id="theCanvas" width="400" height="400" style="border: 1px solid lightgrey"></canvas>
+</body>
+</html>

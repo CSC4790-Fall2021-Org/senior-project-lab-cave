@@ -71,6 +71,9 @@ textScreen.setPosition([0.95,0.05,0])
 
 textScreen.message('')
 
+DelayHide = vizact.sequence( vizact.waittime(8), vizact.method.visible(False) )
+Show = vizact.method.visible(True)
+
 def updateScreenText():
 	global visitedFumeHood
 	global visitedEyeWash 

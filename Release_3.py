@@ -1,29 +1,19 @@
-﻿
-#import viz
-#import vizshape
-
-#viz.go()
-
-#filename = "VUCEET001.jpg"
-#sphere = vizshape.addSphere(radius=20, pos=[0,0,0])
-#this_texture = viz.addTexture(filename)
-
-#More configuration of the sphere
-#sphere.texture(this_texture)
-#sphere.disable(viz.LIGHTING) #make the image appear full color, do not render shadows for sphere
-
-#Flip normals to make texture go on the inside of sphere
-#sphere.enable(viz.FLIP_POLYGON_ORDER)
-
-#view = viz.MainView
-#view.setPosition([0,-10,-1])
-
-import vizshape
-import atexit
+﻿""" 
+Click on the red circles to learn more about the equipment around the lab! 
+""" 
 
 import viz 
+import vizshape
+import atexit
+import vizinfo
+import viztask
+import vizact
+
 
 viz.go()
+
+#Add info panel to display messages to participant
+instructions = vizinfo.InfoPanel(align=viz.ALIGN_CENTER,fontSize=60,icon=False,key=None)
 
 filename = "VUCEET013.jpg"
 sphere = vizshape.addSphere(radius=20, pos=[0,0,0])
@@ -38,6 +28,7 @@ sphere.enable(viz.FLIP_POLYGON_ORDER)
 
 view = viz.MainView
 view.setPosition([0,-10,-1])
+view.setEuler([150,0,0])
 
 
 sphere.disable(viz.PICKING)
@@ -67,9 +58,18 @@ fire_ext.setPosition([-5,-10,15])
 
 textScreen = viz.addText('Screen Text',viz.SCREEN)
 textScreen.alignment(viz.ALIGN_RIGHT_BOTTOM)
+textScreen.color(viz.GREEN)
+textScreen.setBackdrop(viz.BACKDROP_RIGHT_BOTTOM)
+textScreen.setBackdropColor(viz.BLACK)
 textScreen.setPosition([0.95,0.05,0])
 
 textScreen.message('')
+
+# Action for hiding/showing text\\
+DelayHide = vizact.sequence( vizact.waittime(10), vizact.method.visible(False) )
+Show = vizact.method.visible(True)\
+
+
 
 def updateScreenText():
 	global visitedFumeHood
@@ -80,22 +80,51 @@ def updateScreenText():
 	object = viz.pick()
 	if object == fume: 
 		textScreen.message('FUME HOOD')
+		instructions.runAction(Show)
+		instructions.setText("When working with volatile chemicals (i.e. chemicals that evaporate easily, like many organic solvents), \n"
+		"or particularly hazardous chemicals that may produce strong reactions" 
+		"(like a strong acid reacting with metal), \nyou should use the fume hood for some added protection.")
+		instructions.runAction(DelayHide)
 		visitedFumeHood = True
 		fume.color( viz.GREEN )
 	elif object == eye_wash:
 		textScreen.message('EYE WASH STATION')
+		instructions.runAction(Show)
+		instructions.setText("An eye wash station is available at some (but not all) of the wash sinks.  \n"
+		"These will be pointed out on the first day, and you should be aware of which one is closest to your lab bench.  \n"
+		"To operate, push forward and down on the handle, and place your eyes over the two nozzles.  Keep your eyes open to \n"
+		"the gentle stream of water in order to wash out the irritants.  Make sure to get attention from someone to help you.  \n"
+		"If you see someone else using the eye wash station, alert a TA or Instructor.")
+		instructions.runAction(DelayHide)
 		visitedEyeWash = True
 		eye_wash.color( viz.GREEN )
 	elif object == back:
 		textScreen.message('OUTLETS & NOZZLES')
+		instructions.runAction(Show)
+		instructions.setText("Notice that the back of the bench features electrical outlets as well as several nozzles. \n"  
+		"The nozzles are connections for: \n \n"
+		"1: Vacuum (for use with a Buchner vacuum filtration funnel)\n"
+		"2: Pressurized air (useful to speed up the drying of glassware)\n"
+		"3: Natural gas (for use with a Bunsen burner)")
+		instructions.runAction(DelayHide)
 		visitedNozzles = True
 		back.color( viz.GREEN )
 	elif object == shower:
-		textScreen.message('SAFETY SHOWER')
-		visitedShower = True
+		viz.window.displayHTML( 'hw1.html' )
+		vizact.onkeydown(' ', viz.window.hideHTML )
+		#textScreen.message('SAFETY SHOWER')
+		#instructions.setText("A safety shower is also available in the lab.  These are only to be used for large volume spills on your body, \n"
+		#"or should a part of your clothing catch fire.  To operate, pull down on the handle to douse yourself in water.")
+		#instructions.runAction(DelayHide)
+		#visitedShower = True
 		shower.color( viz.GREEN )
 	elif object == fire_ext:
 		textScreen.message('FIRE EXTINGUISHER')
+		instructions.runAction(Show)
+		instructions.setText("Another unlikely but serious concern is that of a fire.  Each lab is equipped with a fire extinguisher, but you are not expected\n"
+		"to use it under any circumstances.  Immediately get the attention of a TA or Instructor, no matter the size of the incident.\n" 
+		"Again, you are not expected to control or put out any fire yourself, even if you feel it is “your fault.”")
+		instructions.runAction(DelayHide)
 		visitedFireExtinguisher = True 
 		fire_ext.color( viz.GREEN )
 	else:
