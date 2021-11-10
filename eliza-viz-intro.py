@@ -58,6 +58,7 @@ def walkAvatars():
 
 vizact.onkeydown('w',walkAvatars)
 
+#press p key to make pigeons walk 
 def pigeonsFeed():
 
     random_speed = vizact.method.setAnimationSpeed(0,vizact.randfloat(0.7,1.5))

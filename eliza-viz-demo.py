@@ -12,7 +12,7 @@ viz.mouse(viz.OFF)
 #viz.clearcolor(viz.SKYBLUE)
 lab = viz.addChild('lab.ive')
 
-fire = viz.addChild('fire.osg')
+fire = viz.addChild('crate.osgb')
 ball = viz.addChild('white_ball.wrl')
 flash = viz.addChild('flashlight.osgb')
 
