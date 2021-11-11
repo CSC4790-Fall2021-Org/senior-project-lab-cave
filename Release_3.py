@@ -4,6 +4,8 @@ import atexit
 import vizinfo
 import viztask
 import vizact
+import vizcam
+
 
 
 viz.go()
@@ -57,7 +59,7 @@ nozzles.setPosition([3,-13,-7])
 shower.setPosition([8.5,-7,13])
 fire_ext.setPosition([-5,-10,15])
 
-#
+#Sets up screen 
 screen = vizshape.addPlane(size=(5,5), axis=vizshape.AXIS_X, cullFace=True)
 screen.setEuler(-180,0,0)
 screen.setPosition(15,-8,-2)
