@@ -21,9 +21,12 @@ sphere.disable(viz.LIGHTING) #make the image appear full color, do not render sh
 sphere.enable(viz.FLIP_POLYGON_ORDER)
 
 
+
 view = viz.MainView
 view.setPosition([0,-10,-1])
 view.setEuler([90,0,0])
+
+vizact.onkeydown(' ',view.setPosition([0,-10,-1]))
 
 sphere.disable(viz.PICKING)
 
@@ -83,23 +86,32 @@ def updateScreenText():
 		screen.texture(viz.addTexture("Slides/Fume_Hood.jpg"))
 		visitedFumeHood = True
 		fume.color( viz.GREEN )
+		view.setPosition([0,-10,-1])
+		view.setEuler([90,0,0])
 	elif object == eye_wash:
 		screen.texture(viz.addTexture("Slides/Eye_Wash.jpg"))
 		visitedEyeWash = True
 		eye_wash.color( viz.GREEN )
+		view.setPosition([0,-10,-1])
+		view.setEuler([90,0,0])
 	elif object == nozzles:
 		screen.texture(viz.addTexture("Slides/Nozzles.jpg"))
 		visitedNozzles = True
 		nozzles.color( viz.GREEN )
+		view.setPosition([0,-10,-1])
+		view.setEuler([90,0,0])
 	elif object == shower:
 		screen.texture(viz.addTexture("Slides/Shower.jpg"))
 		visitedShower = True
 		shower.color( viz.GREEN )
+		view.setPosition([0,-10,-1])
+		view.setEuler([90,0,0])
 	elif object == fire_ext:
 		visitedFireExtinguisher = True 
 		screen.texture(viz.addTexture("Slides/Fire_Extinguisher.jpg"))
-		view.setEuler([90,0,0])
 		fire_ext.color( viz.GREEN )
+		view.setPosition([0,-10,-1])
+		view.setEuler([90,0,0])
 		
 		
 	
