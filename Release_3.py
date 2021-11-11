@@ -1,8 +1,4 @@
-﻿""" 
-Click on the red circles to learn more about the equipment around the lab! 
-""" 
-
-import viz 
+﻿import viz 
 import vizshape
 import atexit
 import vizinfo
@@ -26,9 +22,10 @@ sphere.disable(viz.LIGHTING) #make the image appear full color, do not render sh
 #Flip normals to make texture go on the inside of sphere
 sphere.enable(viz.FLIP_POLYGON_ORDER)
 
+
 view = viz.MainView
 view.setPosition([0,-10,-1])
-view.setEuler([150,0,0])
+view.setEuler([90,0,0])
 
 
 sphere.disable(viz.PICKING)
@@ -41,18 +38,22 @@ visitedFireExtinguisher = False
 
 fume = viz.addChild('white_ball.wrl')
 fume.color( viz.RED )
+
 eye_wash = viz.addChild('white_ball.wrl')
 eye_wash.color( viz.RED )
-back = viz.addChild('white_ball.wrl')
-back.color( viz.RED )
+
+nozzles = viz.addChild('white_ball.wrl')
+nozzles.color( viz.RED )
+
 shower = viz.addChild('white_ball.wrl')
 shower.color( viz.RED )
+
 fire_ext = viz.addChild('white_ball.wrl')
 fire_ext.color( viz.RED )
 
 fume.setPosition([-2,-10,-13])
 eye_wash.setPosition([0,-12,-10])
-back.setPosition([3,-13,-7])
+nozzles.setPosition([3,-13,-7])
 shower.setPosition([8.5,-7,13])
 fire_ext.setPosition([-5,-10,15])
 
@@ -62,6 +63,14 @@ textScreen.color(viz.GREEN)
 textScreen.setBackdrop(viz.BACKDROP_RIGHT_BOTTOM)
 textScreen.setBackdropColor(viz.BLACK)
 textScreen.setPosition([0.95,0.05,0])
+
+screen = vizshape.addPlane(size=(5,5), axis=vizshape.AXIS_X, cullFace=True)
+screen.setEuler(-180,0,0)
+screen.setPosition(15,-8,-2)
+screen.disable(viz.LIGHTING)
+screen.visible(viz.ON)
+
+
 
 textScreen.message('')
 
@@ -80,11 +89,7 @@ def updateScreenText():
 	object = viz.pick()
 	if object == fume: 
 		textScreen.message('FUME HOOD')
-		instructions.runAction(Show)
-		instructions.setText("When working with volatile chemicals (i.e. chemicals that evaporate easily, like many organic solvents), \n"
-		"or particularly hazardous chemicals that may produce strong reactions" 
-		"(like a strong acid reacting with metal), \nyou should use the fume hood for some added protection.")
-		instructions.runAction(DelayHide)
+		screen.texture(viz.addTexture("Fume_Hood.jpg"))
 		visitedFumeHood = True
 		fume.color( viz.GREEN )
 	elif object == eye_wash:
@@ -98,7 +103,7 @@ def updateScreenText():
 		instructions.runAction(DelayHide)
 		visitedEyeWash = True
 		eye_wash.color( viz.GREEN )
-	elif object == back:
+	elif object == nozzles:
 		textScreen.message('OUTLETS & NOZZLES')
 		instructions.runAction(Show)
 		instructions.setText("Notice that the back of the bench features electrical outlets as well as several nozzles. \n"  
@@ -108,7 +113,7 @@ def updateScreenText():
 		"3: Natural gas (for use with a Bunsen burner)")
 		instructions.runAction(DelayHide)
 		visitedNozzles = True
-		back.color( viz.GREEN )
+		nozzles.color( viz.GREEN )
 	elif object == shower:
 		viz.window.displayHTML( 'hw1.html' )
 		vizact.onkeydown(' ', viz.window.hideHTML )
@@ -120,12 +125,9 @@ def updateScreenText():
 		shower.color( viz.GREEN )
 	elif object == fire_ext:
 		textScreen.message('FIRE EXTINGUISHER')
-		instructions.runAction(Show)
-		instructions.setText("Another unlikely but serious concern is that of a fire.  Each lab is equipped with a fire extinguisher, but you are not expected\n"
-		"to use it under any circumstances.  Immediately get the attention of a TA or Instructor, no matter the size of the incident.\n" 
-		"Again, you are not expected to control or put out any fire yourself, even if you feel it is “your fault.”")
-		instructions.runAction(DelayHide)
 		visitedFireExtinguisher = True 
+		screen.texture(viz.addTexture("Slides/Fire_Extinguisher.jpg"))
+		view.setEuler([90,0,0])
 		fire_ext.color( viz.GREEN )
 	else:
 		textScreen.message('')
