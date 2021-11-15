@@ -9,32 +9,38 @@ import vizcam
 
 viz.go()
 
+#Increase the Field of View
+viz.MainWindow.fov(60)
 
-filename = "VUCEET013.jpg"
-sphere = vizshape.addSphere(radius=20, pos=[0,0,0])
-this_texture = viz.addTexture(filename)
-
-#More configuration of the sphere
-sphere.texture(this_texture)
-sphere.disable(viz.LIGHTING) #make the image appear full color, do not render shadows for sphere
-
-#Flip normals to make texture go on the inside of sphere
-sphere.enable(viz.FLIP_POLYGON_ORDER)
+chemLab = viz.addChild('chemlab50M.xyz.osgb')
+chemLab.disable(viz.LIGHTING)
+chemLab.setEuler(20,0,0)
 
 view = viz.MainView
-view.setPosition([0,-10,-1])
-view.setEuler([90,0,0])
+view.setPosition([-0.5,4.4,-3.5])
+view.setEuler([-90,0,0])
 
-vizact.onkeydown(' ',view.setPosition([0,-10,-1]))
-
-sphere.disable(viz.PICKING)
-
+#Defines boolean variables
 visitedFumeHood = False
 visitedEyeWash = False
 visitedNozzles = False
 visitedShower = False
 visitedFireExtinguisher = False
 visitedBench = False
+
+back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
+back.setPosition(-6,4,-4)
+left = vizshape.addPlane(size=(20,3), axis=vizshape.AXIS_Z, cullFace=True)
+left.setPosition(0,4,)
+
+
+#Sets up screen 
+screen = vizshape.addPlane(size=(1.2,1.2), axis=vizshape.AXIS_X, cullFace=True)
+screen.setEuler(0,0,0)
+screen.setPosition(-5.12,4.49,-4.25)
+screen.disable(viz.LIGHTING)
+screen.visible(viz.ON)
+screen.texture(viz.addTexture("Slides/Intro.jpg"))
 
 #creates equipment orbs
 fume = viz.addChild('white_ball.wrl')
@@ -52,23 +58,13 @@ shower.color( viz.RED )
 fire_ext.color( viz.RED )
 bench.color( viz.RED )
 
-
 #positions orbs
-fume.setPosition([-2,-10,-13])
-eye_wash.setPosition([0,-12,-10])
-nozzles.setPosition([3,-13,-7])
-shower.setPosition([8.5,-7,13])
-fire_ext.setPosition([-5,-10,15])
-bench.setPosition([12,-12,-7])
-
-#Sets up screen 
-screen = vizshape.addPlane(size=(5,5), axis=vizshape.AXIS_X, cullFace=True)
-screen.setEuler(-180,0,0)
-screen.setPosition(15,-8,-2)
-screen.disable(viz.LIGHTING)
-screen.visible(viz.ON)
-screen.texture(viz.addTexture("Slides/Intro.jpg"))
-
+fume.setPosition([-3.5,5,.85])
+eye_wash.setPosition([-2.9,4,-7.9])
+nozzles.setPosition([-1.2,4,-7.5])
+shower.setPosition([2,5,-11])
+fire_ext.setPosition([-4.2,4.1,-9.8])
+bench.setPosition([-0.5,3.9,-7.5])
 
 def updateScreenText():
 	global visitedFumeHood
@@ -82,43 +78,41 @@ def updateScreenText():
 		screen.texture(viz.addTexture("Slides/Fume_Hood.jpg"))
 		visitedFumeHood = True
 		fume.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])
 	elif object == eye_wash:
 		screen.texture(viz.addTexture("Slides/Eye_Wash.jpg"))
 		visitedEyeWash = True
 		eye_wash.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])
 	elif object == nozzles:
 		screen.texture(viz.addTexture("Slides/Nozzles.jpg"))
 		visitedNozzles = True
 		nozzles.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])
 	elif object == shower:
 		screen.texture(viz.addTexture("Slides/Shower.jpg"))
 		visitedShower = True
 		shower.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])
 	elif object == fire_ext:
 		visitedFireExtinguisher = True 
 		screen.texture(viz.addTexture("Slides/Fire_Extinguisher.jpg"))
 		fire_ext.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])
 	elif object == bench:
 		visitedBench = True 
 		viz.window.displayHTML( 'www.google.com' )
 		vizact.onkeydown(' ', viz.window.hideHTML )
 		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
 		bench.color( viz.GREEN )
-		view.setPosition([0,-10,-1])
-		view.setEuler([90,0,0])	
+		view.setPosition([-0.5,4.4,-3.5])
+		view.setEuler([-90,0,0])	
 		
-		
-	
 def tourOutput():
 	print('FUME HOOD: ', visitedFumeHood)
 	print('EYE WASH STATION: ', visitedEyeWash)
