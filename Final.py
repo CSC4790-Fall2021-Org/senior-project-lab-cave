@@ -28,10 +28,10 @@ visitedShower = False
 visitedFireExtinguisher = False
 visitedBench = False
 
-back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
-back.setPosition(-6,4,-4)
-left = vizshape.addPlane(size=(20,3), axis=vizshape.AXIS_Z, cullFace=True)
-left.setPosition(0,4,)
+#back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
+#back.setPosition(-6,4,-4)
+#left = vizshape.addPlane(size=(20,3), axis=vizshape.AXIS_Z, cullFace=True)
+#left.setPosition(0,4,)
 
 
 #Sets up screen 
