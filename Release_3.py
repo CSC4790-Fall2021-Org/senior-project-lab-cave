@@ -117,6 +117,9 @@ def updateScreenText():
 		view.setPosition([0,-10,-1])
 		view.setEuler([90,0,0])	
 		
+	
+	
+		
 		
 	
 def tourOutput():
