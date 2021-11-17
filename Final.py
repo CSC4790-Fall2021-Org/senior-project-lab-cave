@@ -110,32 +110,32 @@ def equipmentTutorial():
 	global visitedToProcedure
 	object = viz.pick()
 	if object == fume: 
-		screen.texture(viz.addTexture("Slides/Fume_Hood.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Fume_Hood.jpg"))
 		visitedFumeHood = True
 		fume.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == eye_wash:
-		screen.texture(viz.addTexture("Slides/Eye_Wash.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Eye_Wash.jpg"))
 		visitedEyeWash = True
 		eye_wash.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == nozzles:
-		screen.texture(viz.addTexture("Slides/Nozzles.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Nozzles.jpg"))
 		visitedNozzles = True
 		nozzles.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == shower:
-		screen.texture(viz.addTexture("Slides/Shower.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Shower.jpg"))
 		visitedShower = True
 		shower.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == fire_ext:
 		visitedFireExtinguisher = True 
-		screen.texture(viz.addTexture("Slides/Fire_Extinguisher.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Fire_Extinguisher.jpg"))
 		fire_ext.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
@@ -143,13 +143,13 @@ def equipmentTutorial():
 		visitedBench = True 
 		viz.window.displayHTML( 'www.google.com' )
 		vizact.onkeydown(' ', viz.window.hideHTML )
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Lab_Bench.jpg"))
 		bench.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == sinks:
 		visitedSinks = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Sinks.jpg"))
 		sinks.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
@@ -173,10 +173,15 @@ def equipmentTutorial():
 		view.setEuler([-90,0,0])
 	elif object == toProcedure: 
 		visitedToProcedure = True
-		screen.texture(viz.addTexture("Slides/Intro.jpg"))
 		toProcedure.color( viz.GREEN )
 		view.setEuler([-90,0,0])
-		vizact.onmousedown(viz.MOUSEBUTTON_LEFT,proceduresTutorial)
+		fume.visible(viz.OFF)
+		eye_wash.visible(viz.OFF)
+		shower.visible(viz.OFF)
+		nozzles.visible(viz.OFF)
+		fire_ext.visible(viz.OFF)
+		bench.visible(viz.OFF)
+		toProcedure.visible(viz.OFF)
 		proceduresTutorial()
 	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True:
 		toProcedure.visible(viz.ON)
@@ -185,13 +190,7 @@ def equipmentTutorial():
 		
 def proceduresTutorial():
 	#disables equipment orbs
-	fume.visible(viz.OFF)
-	eye_wash.visible(viz.OFF)
-	shower.visible(viz.OFF)
-	nozzles.visible(viz.OFF)
-	fire_ext.visible(viz.OFF)
-	bench.visible(viz.OFF)
-	toProcedure.visible(viz.OFF)
+	screen.texture(viz.addTexture("Slides/Intro.jpg"))
 	object = viz.pick()
 	if object == fume: 
 		screen.texture(viz.addTexture("Slides/Eye_Wash.jpg"))
