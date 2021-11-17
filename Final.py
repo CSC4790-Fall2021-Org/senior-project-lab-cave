@@ -21,6 +21,9 @@ view.setPosition([-0.5,4.4,-3.5])
 view.setEuler([-90,0,0])
 
 #Defines boolean variables
+#What to Wear section
+visitedToEquipment = False
+
 #Equipment section
 visitedFumeHood = False
 visitedEyeWash = False
@@ -86,15 +89,22 @@ fire_ext.setPosition([-4.2,4.1,-9.8])
 bench.setPosition([-0.5,3.9,-7.5])
 sinks.setPosition([-2.7,4.1,-4.8])
 taps.setPosition([-0.5,3.9,-7.5])
-floor.setPosition([-0.5,3.9,-7.5])
+floor.setPosition([2,3.2,-3.1])
 waste.setPosition([-0.5,3.9,-7.5])
 toProcedure.setPosition([-5,5,-5])
 
 def safetyTutorial():
 	if visitedToProcedure == True:
 		proceduresTutorial()
-	else:
+	elif visitedToEquipment == True:
 		equipmentTutorial()
+	else:
+		introduction()
+		
+def introduction():
+	global visitedToEquipment
+	visitedToEquipment = True
+	
 
 def equipmentTutorial():
 	global visitedFumeHood
@@ -149,25 +159,25 @@ def equipmentTutorial():
 		view.setEuler([-90,0,0])
 	elif object == sinks:
 		visitedSinks = True 
-		screen.texture(viz.addTexture("Slides/Sinks.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Sinks.jpg"))
 		sinks.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == taps:
 		visitedTaps = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Lab_Bench.jpg"))
 		taps.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == floor:
 		visitedFloor = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Lab_Bench.jpg"))
 		floor.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
+		view.setPosition([0,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == waste:
 		visitedWaste = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Lab_Bench.jpg"))
 		waste.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
@@ -175,15 +185,20 @@ def equipmentTutorial():
 		visitedToProcedure = True
 		toProcedure.color( viz.GREEN )
 		view.setEuler([-90,0,0])
+		#turn off previous orbs
 		fume.visible(viz.OFF)
 		eye_wash.visible(viz.OFF)
 		shower.visible(viz.OFF)
 		nozzles.visible(viz.OFF)
 		fire_ext.visible(viz.OFF)
 		bench.visible(viz.OFF)
+		sinks.visible(viz.OFF)
+		taps.visible(viz.OFF)
+		floor.visible(viz.OFF)
+		waste.visible(viz.OFF)
 		toProcedure.visible(viz.OFF)
 		proceduresTutorial()
-	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True:
+	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True and visitedSinks == True and visitedTaps == True and visitedFloor == True and visitedWaste == True:
 		toProcedure.visible(viz.ON)
 		
 		
@@ -239,6 +254,10 @@ def tourOutput():
 	print('SAFETY SHOWER: ', visitedShower)
 	print('FIRE EXTINGUISHER: ', visitedFireExtinguisher)
 	print('LAB BENCH: ', visitedBench)
+	print('SINK: ', visitedSinks)
+	print('TAPS: ', visitedTaps)
+	print('FLOOR: ', visitedFloor)
+	print('WASTE: ', visitedWaste)
 	print('PROCEDURE SECTION: ', visitedToProcedure)
 	
 #def onMouseDown(button):
