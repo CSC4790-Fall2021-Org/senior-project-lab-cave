@@ -21,6 +21,11 @@ view.setPosition([-0.5,4.4,-3.5])
 view.setEuler([-90,0,0])
 
 #Defines boolean variables
+toWhatToWear = False
+
+#What to Wear section
+visitedToEquipment = False
+
 #Equipment section
 visitedFumeHood = False
 visitedEyeWash = False
@@ -48,6 +53,23 @@ screen.disable(viz.LIGHTING)
 screen.visible(viz.ON)
 screen.texture(viz.addTexture("Slides/Intro.jpg"))
 
+#sets up "Next" box
+next = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
+next.setEuler(0,0,0)
+next.setPosition(-5.08,4.49,-3.45)
+next.disable(viz.LIGHTING)
+next.visible(viz.ON)
+next.texture(viz.addTexture("Slides/Next.jpg"))
+
+#sets up "Back" box
+back = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
+back.setEuler(0,0,0)
+back.setPosition(-5.08,4.49,-5.06)
+back.disable(viz.LIGHTING)
+back.visible(viz.ON)
+back.texture(viz.addTexture("Slides/Back.jpg"))
+back.visible(viz.OFF)
+
 #creates equipment orbs
 fume = viz.addChild('white_ball.wrl')
 eye_wash = viz.addChild('white_ball.wrl')
@@ -74,8 +96,19 @@ taps.color( viz.RED )
 floor.color( viz.RED )
 waste.color( viz.RED )
 toProcedure.color( viz.RED )
-toProcedure.visible(viz.OFF)
-		
+
+#turns orbs invisible
+fume.visible(viz.OFF)
+eye_wash.visible(viz.OFF)
+shower.visible(viz.OFF)
+nozzles.visible(viz.OFF)
+fire_ext.visible(viz.OFF)
+bench.visible(viz.OFF)
+sinks.visible(viz.OFF)
+taps.visible(viz.OFF)
+floor.visible(viz.OFF)
+waste.visible(viz.OFF)
+toProcedure.visible(viz.OFF)		
 
 #positions orbs
 fume.setPosition([-3.5,5,.85])
@@ -85,16 +118,45 @@ shower.setPosition([2,5,-11])
 fire_ext.setPosition([-4.2,4.1,-9.8])
 bench.setPosition([-0.5,3.9,-7.5])
 sinks.setPosition([-2.7,4.1,-4.8])
-taps.setPosition([-0.5,3.9,-7.5])
-floor.setPosition([-0.5,3.9,-7.5])
-waste.setPosition([-0.5,3.9,-7.5])
+taps.setPosition([-3,4,-1])
+floor.setPosition([2,3.2,-3.1])
+waste.setPosition([-4.5,3.6,-4])
 toProcedure.setPosition([-5,5,-5])
 
 def safetyTutorial():
 	if visitedToProcedure == True:
 		proceduresTutorial()
-	else:
+	elif visitedToEquipment == True:
 		equipmentTutorial()
+	elif toWhatToWear == True:
+		whatToWear()
+	else:
+		introduction()
+		
+def introduction():
+	global toWhatToWear
+	object = viz.pick()
+	if object == next:
+		print('running introduction')
+		toWhatToWear = True
+		fume.visible(viz.ON)
+		eye_wash.visible(viz.ON)
+		shower.visible(viz.ON)
+		nozzles.visible(viz.ON)
+		fire_ext.visible(viz.ON)
+		bench.visible(viz.ON)
+		sinks.visible(viz.ON)
+		taps.visible(viz.ON)
+		floor.visible(viz.ON)
+		waste.visible(viz.ON)
+		back.visible(viz.ON)
+	
+def whatToWear():
+	global visitedToEquipment
+	visitedToEquipment = True
+	#whatToWear
+	
+	
 
 def equipmentTutorial():
 	global visitedFumeHood
@@ -141,33 +203,33 @@ def equipmentTutorial():
 		view.setEuler([-90,0,0])
 	elif object == bench:
 		visitedBench = True 
-		viz.window.displayHTML( 'www.google.com' )
-		vizact.onkeydown(' ', viz.window.hideHTML )
+		#viz.window.displayHTML( 'www.google.com' )
+		#vizact.onkeydown(' ', viz.window.hideHTML )
 		screen.texture(viz.addTexture("Slides/Equipment/Lab_Bench.jpg"))
 		bench.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == sinks:
 		visitedSinks = True 
-		screen.texture(viz.addTexture("Slides/Sinks.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Sinks.jpg"))
 		sinks.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == taps:
 		visitedTaps = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Taps.jpg"))
 		taps.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == floor:
 		visitedFloor = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Floor.jpg"))
 		floor.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
+		view.setPosition([0,4.4,-3.5])
 		view.setEuler([-90,0,0])
 	elif object == waste:
 		visitedWaste = True 
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
+		screen.texture(viz.addTexture("Slides/Equipment/Waste.jpg"))
 		waste.color( viz.GREEN )
 		view.setPosition([-0.5,4.4,-3.5])
 		view.setEuler([-90,0,0])
@@ -175,20 +237,27 @@ def equipmentTutorial():
 		visitedToProcedure = True
 		toProcedure.color( viz.GREEN )
 		view.setEuler([-90,0,0])
+		#turn off previous orbs
 		fume.visible(viz.OFF)
 		eye_wash.visible(viz.OFF)
 		shower.visible(viz.OFF)
 		nozzles.visible(viz.OFF)
 		fire_ext.visible(viz.OFF)
 		bench.visible(viz.OFF)
+		sinks.visible(viz.OFF)
+		taps.visible(viz.OFF)
+		floor.visible(viz.OFF)
+		waste.visible(viz.OFF)
 		toProcedure.visible(viz.OFF)
 		proceduresTutorial()
-	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True:
+	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True and visitedSinks == True and visitedTaps == True and visitedFloor == True and visitedWaste == True:
 		toProcedure.visible(viz.ON)
 		
 		
 		
+		
 def proceduresTutorial():
+	print('running procedures')
 	#disables equipment orbs
 	screen.texture(viz.addTexture("Slides/Intro.jpg"))
 	object = viz.pick()
@@ -239,6 +308,10 @@ def tourOutput():
 	print('SAFETY SHOWER: ', visitedShower)
 	print('FIRE EXTINGUISHER: ', visitedFireExtinguisher)
 	print('LAB BENCH: ', visitedBench)
+	print('SINK: ', visitedSinks)
+	print('TAPS: ', visitedTaps)
+	print('FLOOR: ', visitedFloor)
+	print('WASTE: ', visitedWaste)
 	print('PROCEDURE SECTION: ', visitedToProcedure)
 	
 #def onMouseDown(button):
