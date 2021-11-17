@@ -39,6 +39,8 @@ visitedFloor = False
 visitedWaste = False
 visitedToProcedure = False
 
+whatToWearSlideCount = 0
+
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
 #back.setPosition(-6,4,-4)
 #left = vizshape.addPlane(size=(20,3), axis=vizshape.AXIS_Z, cullFace=True)
@@ -134,28 +136,46 @@ def safetyTutorial():
 		introduction()
 		
 def introduction():
+	print('running introduction')
 	global toWhatToWear
 	object = viz.pick()
 	if object == next:
-		print('running introduction')
+		screen.texture(viz.addTexture("Slides/WhatToWear/WhatToWear.jpg"))
 		toWhatToWear = True
-		fume.visible(viz.ON)
-		eye_wash.visible(viz.ON)
-		shower.visible(viz.ON)
-		nozzles.visible(viz.ON)
-		fire_ext.visible(viz.ON)
-		bench.visible(viz.ON)
-		sinks.visible(viz.ON)
-		taps.visible(viz.ON)
-		floor.visible(viz.ON)
-		waste.visible(viz.ON)
 		back.visible(viz.ON)
 	
 def whatToWear():
 	global visitedToEquipment
-	visitedToEquipment = True
-	#whatToWear
-	
+	print('running what to wear')
+	global whatToWearSlideCount
+	#disables equipment orbs
+	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Intro.jpg']
+	object = viz.pick()
+	if object == next:
+		if whatToWearSlideCount == 7:
+			fume.visible(viz.ON)
+			eye_wash.visible(viz.ON)
+			shower.visible(viz.ON)
+			nozzles.visible(viz.ON)
+			fire_ext.visible(viz.ON)
+			bench.visible(viz.ON)
+			sinks.visible(viz.ON)
+			taps.visible(viz.ON)
+			floor.visible(viz.ON)
+			waste.visible(viz.ON)
+			visitedToEquipment = True
+		else:
+			whatToWearSlideCount = whatToWearSlideCount + 1
+			print(whatToWearSlideCount)
+	elif object == back:
+		if whatToWearSlideCount == 0:
+			whatToWearSlideCount = 0
+		else:
+			whatToWearSlideCount = whatToWearSlideCount - 1 
+			print(whatToWearSlideCount)
+	print(whatToWearSlideshow[whatToWearSlideCount])
+	screen.texture(viz.addTexture(whatToWearSlideshow[whatToWearSlideCount]))
+	#visitedToEquipment = True
 	
 
 def equipmentTutorial():
@@ -254,51 +274,8 @@ def equipmentTutorial():
 		toProcedure.visible(viz.ON)
 		
 		
-		
-		
 def proceduresTutorial():
-	print('running procedures')
-	#disables equipment orbs
-	screen.texture(viz.addTexture("Slides/Intro.jpg"))
-	object = viz.pick()
-	if object == fume: 
-		screen.texture(viz.addTexture("Slides/Eye_Wash.jpg"))
-		visitedFumeHood = True
-		fume.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
-	elif object == eye_wash:
-		screen.texture(viz.addTexture("Slides/Fume_Hood.jpg"))
-		visitedEyeWash = True
-		eye_wash.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
-	elif object == nozzles:
-		screen.texture(viz.addTexture("Slides/Shower.jpg"))
-		visitedNozzles = True
-		nozzles.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
-	elif object == shower:
-		screen.texture(viz.addTexture("Slides/Nozzles.jpg"))
-		visitedShower = True
-		shower.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
-	elif object == fire_ext:
-		visitedFireExtinguisher = True 
-		screen.texture(viz.addTexture("Slides/Fire_Extinguisher.jpg"))
-		fire_ext.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
-	elif object == bench:
-		visitedBench = True 
-		viz.window.displayHTML( 'www.google.com' )
-		vizact.onkeydown(' ', viz.window.hideHTML )
-		screen.texture(viz.addTexture("Slides/Lab_Bench.jpg"))
-		bench.color( viz.GREEN )
-		view.setPosition([-0.5,4.4,-3.5])
-		view.setEuler([-90,0,0])
+	print('running procedures')		
 		
 def tourOutput():
 	print('Equipment Checklist:')
