@@ -149,7 +149,7 @@ def whatToWear():
 	print('running what to wear')
 	global whatToWearSlideCount
 	#disables equipment orbs
-	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Intro.jpg']
+	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/WhatToWear/WhatToWearExit.jpg']
 	object = viz.pick()
 	if object == next:
 		if whatToWearSlideCount == 7:
@@ -164,6 +164,8 @@ def whatToWear():
 			floor.visible(viz.ON)
 			waste.visible(viz.ON)
 			visitedToEquipment = True
+			next.visible(viz.OFF)
+			back.visible(viz.OFF)
 		else:
 			whatToWearSlideCount = whatToWearSlideCount + 1
 			print(whatToWearSlideCount)
@@ -175,8 +177,6 @@ def whatToWear():
 			print(whatToWearSlideCount)
 	print(whatToWearSlideshow[whatToWearSlideCount])
 	screen.texture(viz.addTexture(whatToWearSlideshow[whatToWearSlideCount]))
-	#visitedToEquipment = True
-	
 
 def equipmentTutorial():
 	global visitedFumeHood
