@@ -40,6 +40,8 @@ visitedWaste = False
 visitedToProcedure = False
 
 whatToWearSlideCount = 0
+videoCount = 0
+playNow = True
 
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
 #back.setPosition(-6,4,-4)
@@ -149,7 +151,7 @@ def whatToWear():
 	print('running what to wear')
 	global whatToWearSlideCount
 	#disables equipment orbs
-	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Intro.jpg']
+	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/WhatToWear/WhatToWearExit.jpg']
 	object = viz.pick()
 	if object == next:
 		if whatToWearSlideCount == 7:
@@ -164,6 +166,8 @@ def whatToWear():
 			floor.visible(viz.ON)
 			waste.visible(viz.ON)
 			visitedToEquipment = True
+			next.visible(viz.OFF)
+			back.visible(viz.OFF)
 		else:
 			whatToWearSlideCount = whatToWearSlideCount + 1
 			print(whatToWearSlideCount)
@@ -175,8 +179,6 @@ def whatToWear():
 			print(whatToWearSlideCount)
 	print(whatToWearSlideshow[whatToWearSlideCount])
 	screen.texture(viz.addTexture(whatToWearSlideshow[whatToWearSlideCount]))
-	#visitedToEquipment = True
-	
 
 def equipmentTutorial():
 	global visitedFumeHood
@@ -273,9 +275,54 @@ def equipmentTutorial():
 	if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True and visitedSinks == True and visitedTaps == True and visitedFloor == True and visitedWaste == True:
 		toProcedure.visible(viz.ON)
 		
-		
 def proceduresTutorial():
-	print('running procedures')		
+	print('running procedures')	
+		
+def Juice():
+	print('running procedures')	
+	global videoCount
+	global playNow
+	global video
+	videos = ['Robbery.mpg','Legends.mpg']
+	
+	print(videoCount)
+	print(playNow)
+		
+	
+	if playNow == True:
+		playNow = False
+		video = viz.addVideo(videos[videoCount])
+		screen.texture(video)
+		video.setRate(1)
+		video.play()
+		
+	vizact.waittime(video.getDuration)
+	
+	if video.getState() == viz.MEDIA_STOPPED:
+		videoCount = videoCount = videoCount + 1
+		playNow = True
+	
+	print(videoCount)
+	print(playNow)
+		
+	#video2 = viz.addVideo('Legends.mpg')
+	#screen.texture(video)
+	#video.play()
+	#video.getDuration()
+	#screen.texture(video2)
+	#video2.play()#Create an action that will fade an object in, wait for 2 seconds, then fade it back out.
+	
+
+	
+	#fadeAlpha = vizact.fadeTo(1,time=1)
+	#setScreen = screen.texture(video)
+	#fadeColor = vizact.waittime(video.getDuration)
+	#setScreen2 = screen.texture(video2)
+	#fadeout = vizact.fadeTo(0,time=1)
+	#fadeInOut = vizact.sequence(fadeAlpha, setScreen, video.play(), fadeColor, setScreen2, video2.play(), fadeout)
+
+	#screen.addAction(fadeInOut)
+	
 		
 def tourOutput():
 	print('Equipment Checklist:')
