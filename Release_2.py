@@ -75,6 +75,7 @@ plantSensor = vizproximity.Sensor(vizproximity.Box([4,5,5],center=[0,2.5,0]),sou
 cratesSensor = vizproximity.Sensor(vizproximity.Box([5,4,4],center=[0,1.7,0]),source=crate1)
 cafeSensor = vizproximity.Sensor(vizproximity.Box([5,4,10]),source=viz.Matrix.translate(12,2,7.5))
 
+
 #Create sensors for avatars 
 sensorAvatar1 = vizproximity.Sensor(vizproximity.Box([2,2.5,2.5],center=[0,1.3,1]),source=avatar1)
 sensorAvatar2 = vizproximity.Sensor(vizproximity.Box([2,2.5,2.5],center=[0,1.3,0.7]),source=avatar2)
@@ -91,6 +92,8 @@ manager.addSensor(plantSensor)
 manager.addSensor(cratesSensor)
 manager.addSensor(cafeSensor)
 
+
+
 #Add avatar sensors to manager
 manager.addSensor(sensorAvatar1)
 manager.addSensor(sensorAvatar2)
@@ -98,6 +101,7 @@ manager.addSensor(sensorAvatar3)
 
 #Add viewpoint target to manager
 manager.addTarget(target)
+manager.setDebug(viz.ON)
 
 #Add some text objects
 plantText = viz.addText3D('Plant',pos=[-10.3,2,20.6],align=viz.ALIGN_CENTER_BOTTOM)
