@@ -52,7 +52,7 @@ playNow = True
 #Sets up screen 
 screen = vizshape.addPlane(size=(1.2,1.2), axis=vizshape.AXIS_X, cullFace=True)
 screen.setEuler(0,0,0)
-screen.setPosition(-5.12,4.49,-4.25)
+screen.setPosition(-5.12,4.49,-4.27)
 screen.disable(viz.LIGHTING)
 screen.visible(viz.ON)
 screen.texture(viz.addTexture("Slides/Intro.jpg"))
@@ -129,7 +129,7 @@ toProcedure.setPosition([-5,5,-5])
 
 def safetyTutorial():
 	if visitedToProcedure == True:
-		proceduresTutorial()
+		Juice()
 	elif visitedToEquipment == True:
 		equipmentTutorial()
 	elif toWhatToWear == True:
