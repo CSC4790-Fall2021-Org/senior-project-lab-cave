@@ -91,7 +91,26 @@ screen.setEuler(0,0,0)
 screen.setPosition(-5.12,4.49,-4.27)
 screen.disable(viz.LIGHTING)
 screen.visible(viz.ON)
-screen.texture(viz.addTexture("Slides/Intro.jpg"))
+screen.texture(viz.addTexture("Slides/Transition/Intro.jpg"))
+
+#Sets up FlyStick Screen
+ 
+screen2 = vizshape.addPlane(size=(1.2,1.2), axis=vizshape.AXIS_X, cullFace=True)
+screen2.setEuler(0,0,0)
+screen2.setPosition(-5.25,4.49,-2.1)
+screen2.disable(viz.LIGHTING)
+screen2.visible(viz.ON)
+screen2.texture(viz.addTexture("Slides/Transition/Joystick.jpg"))
+
+#Sets up progress bar 
+progress = vizshape.addPlane(size=(1.2,1.2), axis=vizshape.AXIS_X, cullFace=True)
+progress.setEuler(0,0,0)
+progress.setPosition(-4.45,4.49,-0)
+progress.disable(viz.LIGHTING)
+progress.visible(viz.ON)
+progress.texture(viz.addTexture("Slides/Equipment/Shower.jpg"))
+
+
 
 #sets up "Next" box
 next = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -99,7 +118,7 @@ next.setEuler(0,0,0)
 next.setPosition(-5.08,4.49,-3.45)
 next.disable(viz.LIGHTING)
 next.visible(viz.ON)
-next.texture(viz.addTexture("Slides/Next.jpg"))
+next.texture(viz.addTexture("Slides/Transition/Button2.jpg"))
 
 #sets up "Back" box
 back = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -107,7 +126,7 @@ back.setEuler(0,0,0)
 back.setPosition(-5.08,4.49,-5.06)
 back.disable(viz.LIGHTING)
 back.visible(viz.ON)
-back.texture(viz.addTexture("Slides/Back.jpg"))
+back.texture(viz.addTexture("Slides/Transition/Button1.jpg"))
 back.visible(viz.OFF)
 
 #creates equipment orbs
@@ -188,17 +207,12 @@ def introduction():
 	if checkpoint == 0:
 		print('running introduction')
 		checkpoint += 1
-	if trigger:
-		print("pressing")
-	if left:
-		print("left")
-	if right:
-		print("right")
+
 		
 	#object = viz.pick()
 	#if object == next:
 	if right:
-		screen.texture(viz.addTexture("Slides/WhatToWear/WhatToWear.jpg"))
+		screen.texture(viz.addTexture("Slides/Transition/WhatToWear.jpg"))
 		toWhatToWear = True
 		back.visible(viz.ON)
 	
@@ -207,7 +221,7 @@ def whatToWear():
 	print('running what to wear')
 	global whatToWearSlideCount
 	#disables equipment orbs
-	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/WhatToWear/WhatToWearExit.jpg']
+	whatToWearSlideshow = ['Slides/Transition/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Transition/WhatToWearExit.jpg']
 	object = viz.pick()
 	#if object == next:
 	if right:
@@ -423,7 +437,7 @@ def proceduresTutorial():
 	print('running procedures')	
 		
 def Juice():
-	print('running procedures')	
+	print('running Juice')	
 	global videoCount
 	global playNow
 	global video
@@ -526,8 +540,10 @@ def safetyTutorial():
 	if isButtonDown_Right():
 		right = True
 	
-	if visitedToProcedure == True:
-		Juice()
+	
+	if visitedToProcedure == False:
+		proceduresTutorial()
+		##Juice()
 	elif visitedToEquipment == True:
 		equipmentTutorial()
 	elif toWhatToWear == True:
