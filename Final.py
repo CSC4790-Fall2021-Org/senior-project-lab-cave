@@ -42,6 +42,7 @@ visitedToProcedure = False
 whatToWearSlideCount = 0
 videoCount = 0
 playNow = True
+playBackgroundNow = True
 
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
 #back.setPosition(-6,4,-4)
@@ -55,7 +56,7 @@ screen.setEuler(0,0,0)
 screen.setPosition(-5.12,4.49,-4.27)
 screen.disable(viz.LIGHTING)
 screen.visible(viz.ON)
-screen.texture(viz.addTexture("Slides/Intro.jpg"))
+screen.texture(viz.addTexture("Slides/Transition/Intro.jpg"))
 
 #sets up "Next" box
 next = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -63,7 +64,7 @@ next.setEuler(0,0,0)
 next.setPosition(-5.08,4.49,-3.45)
 next.disable(viz.LIGHTING)
 next.visible(viz.ON)
-next.texture(viz.addTexture("Slides/Next.jpg"))
+next.texture(viz.addTexture("Slides/Transition/Next.jpg"))
 
 #sets up "Back" box
 back = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -71,7 +72,7 @@ back.setEuler(0,0,0)
 back.setPosition(-5.08,4.49,-5.06)
 back.disable(viz.LIGHTING)
 back.visible(viz.ON)
-back.texture(viz.addTexture("Slides/Back.jpg"))
+back.texture(viz.addTexture("Slides/Transition/Back.jpg"))
 back.visible(viz.OFF)
 
 #creates equipment orbs
@@ -128,6 +129,14 @@ waste.setPosition([-4.5,3.6,-4])
 toProcedure.setPosition([-5,5,-5])
 
 def safetyTutorial():
+	global playBackgroundNow
+	if playBackgroundNow==True:
+		sound = viz.addAudio('Sounds/Background.wav') 
+		sound.loop(viz.ON) 
+		sound.volume(.5) 
+		sound.setTime(1) 
+		sound.play() 
+		playBackgroundNow=False
 	if visitedToProcedure == True:
 		Juice()
 	elif visitedToEquipment == True:
@@ -142,7 +151,7 @@ def introduction():
 	global toWhatToWear
 	object = viz.pick()
 	if object == next:
-		screen.texture(viz.addTexture("Slides/WhatToWear/WhatToWear.jpg"))
+		screen.texture(viz.addTexture("Slides/Transition/WhatToWear.jpg"))
 		toWhatToWear = True
 		back.visible(viz.ON)
 	
@@ -151,7 +160,7 @@ def whatToWear():
 	print('running what to wear')
 	global whatToWearSlideCount
 	#disables equipment orbs
-	whatToWearSlideshow = ['Slides/WhatToWear/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/WhatToWear/WhatToWearExit.jpg']
+	whatToWearSlideshow = ['Slides/Transition/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Transition/WhatToWearExit.jpg']
 	object = viz.pick()
 	if object == next:
 		if whatToWearSlideCount == 7:
@@ -291,7 +300,7 @@ def Juice():
 	
 	if playNow == True:
 		playNow = False
-		video = viz.addVideo(videos[videoCount])
+		video = viz.addVideo('sounds/'+videos[videoCount])
 		screen.texture(video)
 		video.setRate(1)
 		video.play()
