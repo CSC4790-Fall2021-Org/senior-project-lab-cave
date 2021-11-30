@@ -42,6 +42,7 @@ visitedToProcedure = False
 whatToWearSlideCount = 0
 videoCount = 0
 playNow = True
+playBackgroundNow = True
 
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
 #back.setPosition(-6,4,-4)
@@ -128,6 +129,14 @@ waste.setPosition([-4.5,3.6,-4])
 toProcedure.setPosition([-5,5,-5])
 
 def safetyTutorial():
+	global playBackgroundNow
+	if playBackgroundNow==True:
+		sound = viz.addAudio('Sounds/Background.wav') 
+		sound.loop(viz.ON) 
+		sound.volume(.5) 
+		sound.setTime(1) 
+		sound.play() 
+		playBackgroundNow=False
 	if visitedToProcedure == True:
 		Juice()
 	elif visitedToEquipment == True:
@@ -291,7 +300,7 @@ def Juice():
 	
 	if playNow == True:
 		playNow = False
-		video = viz.addVideo(videos[videoCount])
+		video = viz.addVideo('sounds/'+videos[videoCount])
 		screen.texture(video)
 		video.setRate(1)
 		video.play()
