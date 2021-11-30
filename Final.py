@@ -135,7 +135,7 @@ def safetyTutorial():
 		background.loop(viz.ON) 
 		background.volume(.5) 
 		background.setTime(1) 
-		bachground.play() 
+		background.play() 
 		playBackgroundNow=False
 	if visitedToProcedure == True:
 		Juice()
