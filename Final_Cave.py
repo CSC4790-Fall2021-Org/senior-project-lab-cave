@@ -30,8 +30,6 @@ if IsThisVillanovaCAVE():
 else:
     viz.go()
 
-
-
 #Increase the Field of View
 viz.MainWindow.fov(60)
 
@@ -78,6 +76,7 @@ checkpoint = 0
 whatToWearSlideCount = 0
 videoCount = 0
 playNow = True
+playBackgroundNow = True
 
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
 #back.setPosition(-6,4,-4)
@@ -94,7 +93,6 @@ screen.visible(viz.ON)
 screen.texture(viz.addTexture("Slides/Transition/Intro.jpg"))
 
 #Sets up FlyStick Screen
- 
 screen2 = vizshape.addPlane(size=(1.2,1.2), axis=vizshape.AXIS_X, cullFace=True)
 screen2.setEuler(0,0,0)
 screen2.setPosition(-5.25,4.49,-2.1)
@@ -108,9 +106,7 @@ progress.setEuler(0,0,0)
 progress.setPosition(-4.45,4.49,-0)
 progress.disable(viz.LIGHTING)
 progress.visible(viz.ON)
-progress.texture(viz.addTexture("Slides/Equipment/Shower.jpg"))
-
-
+progress.texture(viz.addTexture("Slides/Progress/Progress_Intro.jpg"))
 
 #sets up "Next" box
 next = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -156,10 +152,10 @@ waste.visible(viz.OFF)
 toProcedure.visible(viz.OFF)		
 
 #positions orbs
-fume.setPosition([-3.5,5,.85])
+fume.setPosition([-3.5,4.4,.85])
 eye_wash.setPosition([-2.5,4,-8.3])
 nozzles.setPosition([-1.2,4,-7.5])
-shower.setPosition([2,5,-11])
+shower.setPosition([2,4.4,-11])
 fire_ext.setPosition([-4.2,4.1,-9.8])
 bench.setPosition([1,3.9,-7.5])
 sinks.setPosition([-3,4.1,-4.8])
@@ -208,7 +204,6 @@ def introduction():
 		print('running introduction')
 		checkpoint += 1
 
-		
 	#object = viz.pick()
 	#if object == next:
 	if right:
@@ -220,6 +215,7 @@ def whatToWear():
 	global visitedToEquipment
 	print('running what to wear')
 	global whatToWearSlideCount
+	progress.texture(viz.addTexture("Slides/Progress/Progress_WhatToWear.jpg"))
 	#disables equipment orbs
 	whatToWearSlideshow = ['Slides/Transition/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Transition/WhatToWearExit.jpg']
 	object = viz.pick()
@@ -241,15 +237,12 @@ def whatToWear():
 			back.visible(viz.OFF)
 		else:
 			whatToWearSlideCount = whatToWearSlideCount + 1
-			print(whatToWearSlideCount)
 	#elif object == back:
 	elif left:
 		if whatToWearSlideCount == 0:
 			whatToWearSlideCount = 0
 		else:
 			whatToWearSlideCount = whatToWearSlideCount - 1 
-			print(whatToWearSlideCount)
-	print(whatToWearSlideshow[whatToWearSlideCount])
 	screen.texture(viz.addTexture(whatToWearSlideshow[whatToWearSlideCount]))
 
 def equipmentTutorial():
@@ -276,6 +269,8 @@ def equipmentTutorial():
 	global visitedFloor
 	global visitedWaste
 	global visitedToProcedure
+	
+	progress.texture(viz.addTexture("Slides/Progress/Progress_ExploringTheLab.jpg"))
 	
 	if IsThisVillanovaCAVE():
 		#Sets orbs to red
@@ -434,6 +429,7 @@ def equipmentTutorial():
 	
 		
 def proceduresTutorial():
+	progress.texture(viz.addTexture("Slides/Progress/Progress_Procedures.jpg"))
 	print('running procedures')	
 		
 def Juice():
@@ -449,7 +445,7 @@ def Juice():
 	
 	if playNow == True:
 		playNow = False
-		video = viz.addVideo(videos[videoCount])
+		video = viz.addVideo('Sounds/'+videos[videoCount])
 		screen.texture(video)
 		video.setRate(1)
 		video.play()
@@ -482,6 +478,8 @@ def Juice():
 	#screen.addAction(fadeInOut)
 
 def safetyTutorial():
+	global playBackgroundNow
+	
 	global trigger
 	global left
 	global right
@@ -499,7 +497,6 @@ def safetyTutorial():
 	global floor 
 	global waste 
 	
-	print(visitedWaste)
 	trigger = False
 	left = False
 	right = False
@@ -535,13 +532,30 @@ def safetyTutorial():
 
 	if isButtonDown_Trigger():
 		trigger = True
+		triggerSound = viz.addAudio('Sounds/Trigger.wav')
+		triggerSound.volume(3)
+		triggerSound.play()
 	if isButtonDown_Left():
 		left = True
+		backSound = viz.addAudio('Sounds/Back.wav')
+		backSound.volume(3)
+		backSound.setTime(1)
+		backSound.play()
 	if isButtonDown_Right():
 		right = True
+		nextSound = viz.addAudio('Sounds/Next.wav')
+		nextSound.volume(3)
+		nextSound.play()
 	
-	
-	if visitedToProcedure == False:
+	if playBackgroundNow == True:
+		background = viz.addAudio('Sounds/Background.wav')
+		background.loop(viz.ON)
+		background.volume(.5)
+		background.setTime(1)
+		background.play()
+		playBackgroundNow=False
+		 
+	if visitedToProcedure == True:
 		proceduresTutorial()
 		##Juice()
 	elif visitedToEquipment == True:
