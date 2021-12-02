@@ -131,11 +131,11 @@ toProcedure.setPosition([-5,5,-5])
 def safetyTutorial():
 	global playBackgroundNow
 	if playBackgroundNow==True:
-		sound = viz.addAudio('Sounds/Background.wav') 
-		sound.loop(viz.ON) 
-		sound.volume(.5) 
-		sound.setTime(1) 
-		sound.play() 
+		background = viz.addAudio('Sounds/Background.wav') 
+		background.loop(viz.ON) 
+		background.volume(.5) 
+		background.setTime(1) 
+		background.play() 
 		playBackgroundNow=False
 	if visitedToProcedure == True:
 		Juice()
