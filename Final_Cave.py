@@ -1,4 +1,4 @@
-﻿import viz 
+﻿﻿import viz 
 import vizshape
 import atexit
 import vizinfo
@@ -71,11 +71,17 @@ hitTaps = False
 hitFloor = False
 hitWaste = False
 
+toQuiz = False
+
 
 checkpoint = 0
 whatToWearSlideCount = 0
+proceduresSlideCount = 0
 videoCount = 0
+quizQuestionCount = 0
+quizScore = 0
 playNow = True
+answered = False
 playBackgroundNow = True
 
 #back = vizshape.addPlane(size=(15,3), axis=vizshape.AXIS_X, cullFace=True)
@@ -108,13 +114,21 @@ progress.disable(viz.LIGHTING)
 progress.visible(viz.ON)
 progress.texture(viz.addTexture("Slides/Progress/Progress_Intro.jpg"))
 
+#Sets up Procedures Screen
+screenProcedures = vizshape.addPlane(size=(.4,.4), axis=vizshape.AXIS_X, cullFace=True)
+screenProcedures.setEuler(0,0,0)
+screenProcedures.setPosition(-5.08,4.49,-3.45)
+screenProcedures.disable(viz.LIGHTING)
+screenProcedures.visible(viz.OFF)
+screenProcedures.texture(viz.addTexture("Slides/Transition/ExploringTheLabExit.jpg"))
+
 #sets up "Next" box
 next = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
 next.setEuler(0,0,0)
 next.setPosition(-5.08,4.49,-3.45)
 next.disable(viz.LIGHTING)
 next.visible(viz.ON)
-next.texture(viz.addTexture("Slides/Transition/Button2.jpg"))
+next.texture(viz.addTexture("Slides/Transition/Next.jpg"))
 
 #sets up "Back" box
 back = vizshape.addPlane(size=(.32,.18), axis=vizshape.AXIS_X, cullFace=True)
@@ -122,7 +136,7 @@ back.setEuler(0,0,0)
 back.setPosition(-5.08,4.49,-5.06)
 back.disable(viz.LIGHTING)
 back.visible(viz.ON)
-back.texture(viz.addTexture("Slides/Transition/Button1.jpg"))
+back.texture(viz.addTexture("Slides/Transition/Back.jpg"))
 back.visible(viz.OFF)
 
 #creates equipment orbs
@@ -175,7 +189,7 @@ sinksSensor = vizproximity.Sensor(vizproximity.Box([1,4,1],center=[0,0,0]), sour
 tapsSensor = vizproximity.Sensor(vizproximity.Box([1,4,1],center=[0,0,0]), source=taps)
 floorSensor = vizproximity.Sensor(vizproximity.Box([1,4,1],center=[0,0,0]), source=floor)
 wasteSensor = vizproximity.Sensor(vizproximity.Box([1.5,4,1.5],center=[0,0,0]), source=waste)
-			
+
 #set target as MainView
 #TRY TO SET TARGET TO FLYSTICK HAND			
 target = vizproximity.Target(viz.MainView)
@@ -194,9 +208,9 @@ manager.addSensor(wasteSensor)
 manager.addTarget(target)
 
 #make proximity sensor boxes visible
-manager.setDebug(viz.ON)
+##manager.setDebug(viz.ON)9
 
-		
+
 def introduction():
 	global checkpoint
 	global toWhatToWear
@@ -210,14 +224,22 @@ def introduction():
 		screen.texture(viz.addTexture("Slides/Transition/WhatToWear.jpg"))
 		toWhatToWear = True
 		back.visible(viz.ON)
-	
+
 def whatToWear():
 	global visitedToEquipment
-	print('running what to wear')
+	#print('running what to wear')
 	global whatToWearSlideCount
 	progress.texture(viz.addTexture("Slides/Progress/Progress_WhatToWear.jpg"))
 	#disables equipment orbs
-	whatToWearSlideshow = ['Slides/Transition/WhatToWear.jpg', 'Slides/WhatToWear/Footwear.jpg','Slides/WhatToWear/Pants.jpg', 'Slides/WhatToWear/Shirts.jpg','Slides/WhatToWear/Hair.jpg','Slides/WhatToWear/Eyes.jpg','Slides/WhatToWear/SafetyGear.jpg','Slides/Transition/WhatToWearExit.jpg']
+	whatToWearSlideshow = ['Slides/Transition/WhatToWear.jpg', 
+							'Slides/WhatToWear/Footwear.jpg',
+							'Slides/WhatToWear/Pants.jpg', 
+							'Slides/WhatToWear/Shirts.jpg',
+							'Slides/WhatToWear/Hair.jpg',
+							'Slides/WhatToWear/Eyes.jpg',
+							'Slides/WhatToWear/SafetyGear.jpg',
+							'Slides/Transition/WhatToWearExit.jpg',
+							'Slides/Transition/ExploringTheLab.jpg']
 	object = viz.pick()
 	#if object == next:
 	if right:
@@ -235,6 +257,9 @@ def whatToWear():
 			visitedToEquipment = True
 			next.visible(viz.OFF)
 			back.visible(viz.OFF)
+			print("goint to equipment")
+			screen.texture(viz.addTexture("Slides/Transition/ExploringTheLab.jpg"))
+			whatToWearSlideCount = whatToWearSlideCount + 1
 		else:
 			whatToWearSlideCount = whatToWearSlideCount + 1
 	#elif object == back:
@@ -246,7 +271,8 @@ def whatToWear():
 	screen.texture(viz.addTexture(whatToWearSlideshow[whatToWearSlideCount]))
 
 def equipmentTutorial():
-	
+
+	#print("running equipment")
 	global hitFumeHood
 	global hitEyeWash 
 	global hitNozzles 
@@ -257,7 +283,7 @@ def equipmentTutorial():
 	global hitTaps
 	global hitFloor
 	global hitWaste
-	
+
 	global visitedFumeHood
 	global visitedEyeWash 
 	global visitedNozzles 
@@ -269,9 +295,9 @@ def equipmentTutorial():
 	global visitedFloor
 	global visitedWaste
 	global visitedToProcedure
-	
+
 	progress.texture(viz.addTexture("Slides/Progress/Progress_ExploringTheLab.jpg"))
-	
+
 	if IsThisVillanovaCAVE():
 		#Sets orbs to red
 		if visitedFumeHood == False and hitFumeHood == False:
@@ -294,9 +320,9 @@ def equipmentTutorial():
 			floor.color( viz.RED )
 		if visitedWaste == False and hitWaste == False:
 			waste.color( viz.RED )
-		
+
 		#toProcedure.color( viz.RED )
-		
+
 			#changes orb color to green, updates whiteboard, resets view to look at whiteboard
 		def hitEquipment(visited, file, orb):
 			visited = True
@@ -339,9 +365,24 @@ def equipmentTutorial():
 		elif trigger and hitWaste:
 			hitEquipment(visitedWaste, "Waste", waste)
 			visitedWaste = True
-		
+
 		if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True and visitedSinks == True and visitedTaps == True and visitedFloor == True and visitedWaste == True:
-			toProcedure.visible(viz.ON)
+			screenProcedures.visible(viz.ON)
+			if right:
+				fume.visible(viz.OFF)
+				eye_wash.visible(viz.OFF)
+				shower.visible(viz.OFF)
+				nozzles.visible(viz.OFF)
+				fire_ext.visible(viz.OFF)
+				bench.visible(viz.OFF)
+				sinks.visible(viz.OFF)
+				taps.visible(viz.OFF)
+				floor.visible(viz.OFF)
+				waste.visible(viz.OFF)
+				visitedToProcedure = True
+				screenProcedures.visible(viz.OFF)
+				back.visible(viz.OFF)
+
 	else:
 		object = viz.pick()
 		if visitedFumeHood == True and visitedEyeWash == True and visitedNozzles == True and visitedShower == True and visitedFireExtinguisher == True and visitedBench == True and visitedSinks == True and visitedTaps == True and visitedFloor == True and visitedWaste == True:
@@ -425,49 +466,182 @@ def equipmentTutorial():
 			waste.visible(viz.OFF)
 			toProcedure.visible(viz.OFF)
 			proceduresTutorial()
-		
-	
-		
+
+
+
 def proceduresTutorial():
 	progress.texture(viz.addTexture("Slides/Progress/Progress_Procedures.jpg"))
-	print('running procedures')	
-		
+	#print('running procedures')	
+	global toQuiz
+	global proceduresSlideCount
+	progress.texture(viz.addTexture("Slides/Progress/Progress_Procedures.jpg"))
+	proceduresSlideshow = ['Slides/Transition/Procedures.jpg',
+							'Slides/Procedures/goggles.jpg',
+							'Slides/Procedures/gloves.jpg',
+							'Slides/Procedures/food.jpg',
+							'Slides/Procedures/fumeProcedure.jpg',
+							'Slides/Procedures/solidTransfer.jpg',
+							'Slides/Procedures/liquidTransfer.jpg',
+							'Slides/Procedures/hotPlates.jpg',
+							'Slides/Procedures/bunsen.jpg',
+							'Slides/Procedures/labels.jpg',
+							'Slides/Procedures/minorAccidents.jpg',
+							'Slides/Procedures/leavingLab.jpg',
+							'Slides/Transition/ProceduresExit.jpg',
+							'Slides/Transition/Quiz.jpg']
+	object = viz.pick()
+	#if object == next:
+	if right:
+		if proceduresSlideCount == 12:
+			proceduresSlideCount = proceduresSlideCount + 1
+			toQuiz = True
+		else:
+			proceduresSlideCount = proceduresSlideCount + 1
+	#elif object == back:
+	elif left:
+		if proceduresSlideCount == 0:
+			proceduresSlideCount = 0
+		else:
+			proceduresSlideCount = proceduresSlideCount - 1 
+	screen.texture(viz.addTexture(proceduresSlideshow[proceduresSlideCount]))
+
+def Quiz():
+	global quizQuestionCount
+	global answered
+	global quizScore
+	progress.texture(viz.addTexture("Slides/Progress/Progress_Emergency.jpg"))
+	if quizQuestionCount == 0 and right:
+		screen.texture(viz.addTexture("Slides/Quiz/Q1.jpg"))
+		screen2.texture(viz.addTexture("Slides/Transition/Quiz.jpg"))
+		next.visible(viz.OFF)
+		quizQuestionCount = quizQuestionCount + 1
+	elif quizQuestionCount == 1:
+		if trigger == True and answered == False:
+			screen.texture(viz.addTexture("Slides/Quiz/Q1Right.jpg"))
+			quizScore = quizScore + 1
+			answered = True
+			next.visible(viz.ON)
+		elif answered == False and (left or right):
+			screen.texture(viz.addTexture("Slides/Quiz/Q1Wrong.jpg"))
+			next.visible(viz.ON)
+			answered = True
+		elif answered == True and right:
+			screen.texture(viz.addTexture("Slides/Quiz/Q2.jpg"))
+			answered = False
+			quizQuestionCount = quizQuestionCount + 1
+			next.visible(viz.OFF)
+	elif quizQuestionCount == 2:
+		if right == True and answered == False:
+			screen.texture(viz.addTexture("Slides/Quiz/Q2Right.jpg"))
+			quizScore = quizScore + 1
+			answered = True
+			next.visible(viz.ON)
+		elif answered == False and (left or trigger):
+			screen.texture(viz.addTexture("Slides/Quiz/Q2Wrong.jpg"))
+			answered = True
+			next.visible(viz.ON)
+		elif answered == True and right:
+			screen.texture(viz.addTexture("Slides/Quiz/Q3.jpg"))
+			answered = False
+			quizQuestionCount = quizQuestionCount + 1
+			next.visible(viz.OFF)
+	elif quizQuestionCount == 3:
+		if right == True and answered == False:
+			screen.texture(viz.addTexture("Slides/Quiz/Q3Right.jpg"))
+			quizScore = quizScore + 1
+			answered = True
+			next.visible(viz.ON)
+		elif answered == False and (left or trigger):
+			screen.texture(viz.addTexture("Slides/Quiz/Q3Wrong.jpg"))
+			answered = True
+			next.visible(viz.ON)
+		elif answered == True and right:
+			screen.texture(viz.addTexture("Slides/Quiz/Q4.jpg"))
+			answered = False
+			quizQuestionCount = quizQuestionCount + 1
+			next.visible(viz.OFF)
+	elif quizQuestionCount == 4:
+		if right == True and answered == False:
+			screen.texture(viz.addTexture("Slides/Quiz/Q4Right.jpg"))
+			quizScore = quizScore + 1
+			answered = True
+			next.visible(viz.ON)
+		elif answered == False and (left or trigger):
+			screen.texture(viz.addTexture("Slides/Quiz/Q4Wrong.jpg"))
+			answered = True
+			next.visible(viz.ON)
+		elif answered == True and right:
+			screen.texture(viz.addTexture("Slides/Quiz/Q5.jpg"))
+			answered = False
+			quizQuestionCount = quizQuestionCount + 1
+			next.visible(viz.OFF)
+	elif quizQuestionCount == 5:
+		if trigger == True and answered == False:
+			screen.texture(viz.addTexture("Slides/Quiz/Q5Right.jpg"))
+			quizScore = quizScore + 1
+			answered = True
+			next.visible(viz.ON)
+		elif answered == False and (left or right):
+			screen.texture(viz.addTexture("Slides/Quiz/Q5Wrong.jpg"))
+			answered = True
+			next.visible(viz.ON)
+		elif answered == True and right:
+			screen.texture(viz.addTexture("Slides/Transition/QuizExit.jpg"))
+			answered = False
+			quizQuestionCount = quizQuestionCount + 1
+			next.visible(viz.OFF)
+			if quizScore == 0:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz0.jpg"))
+			elif quizScore == 20:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz20.jpg"))
+			elif quizScore == 40:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz40.jpg"))
+			elif quizScore == 60:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz60.jpg"))
+			elif quizScore == 80:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz80.jpg"))
+			elif quizScore == 100:
+				screen2.texture(viz.addTexture("Slides/Quiz/Scores/Quiz100.jpg"))
+
+
+
+
 def Juice():
-	print('running Juice')	
+	#print('running Juice')	
 	global videoCount
 	global playNow
 	global video
 	videos = ['Robbery.mpg','Legends.mpg']
-	
+
 	print(videoCount)
 	print(playNow)
-		
-	
+
+
 	if playNow == True:
 		playNow = False
 		video = viz.addVideo('Sounds/'+videos[videoCount])
 		screen.texture(video)
 		video.setRate(1)
 		video.play()
-		
+
 	vizact.waittime(video.getDuration)
-	
+
 	if video.getState() == viz.MEDIA_STOPPED:
 		videoCount = videoCount = videoCount + 1
 		playNow = True
-	
+
 	print(videoCount)
 	print(playNow)
-		
+
 	#video2 = viz.addVideo('Legends.mpg')
 	#screen.texture(video)
 	#video.play()
 	#video.getDuration()
 	#screen.texture(video2)
 	#video2.play()#Create an action that will fade an object in, wait for 2 seconds, then fade it back out.
-	
 
-	
+
+
 	#fadeAlpha = vizact.fadeTo(1,time=1)
 	#setScreen = screen.texture(video)
 	#fadeColor = vizact.waittime(video.getDuration)
@@ -479,13 +653,13 @@ def Juice():
 
 def safetyTutorial():
 	global playBackgroundNow
-	
+
 	global trigger
 	global left
 	global right
-	
+
 	global cave_view_matrix
-	
+
 	global fume
 	global eye_wash 
 	global nozzles 
@@ -496,11 +670,11 @@ def safetyTutorial():
 	global taps 
 	global floor 
 	global waste 
-	
+
 	trigger = False
 	left = False
 	right = False
-	
+
 	#FLYSTICK
 	if IsThisVillanovaCAVE():
 		rawInput = vizconnect.getConfiguration().getRawDict("input")
@@ -513,7 +687,7 @@ def safetyTutorial():
 		BUTTON_LEFT = 'a'
 		BUTTON_RIGHT = 'b'        
 		BUTTON_TRIGGER = ' '
-		
+
 	def isButtonDown_Trigger():
 		if IsThisVillanovaCAVE(): 
 			return rawInput['flystick'].isButtonDown(BUTTON_TRIGGER)
@@ -546,7 +720,7 @@ def safetyTutorial():
 		nextSound = viz.addAudio('Sounds/Next.wav')
 		nextSound.volume(3)
 		nextSound.play()
-	
+
 	if playBackgroundNow == True:
 		background = viz.addAudio('Sounds/Background.wav')
 		background.loop(viz.ON)
@@ -554,8 +728,10 @@ def safetyTutorial():
 		background.setTime(1)
 		background.play()
 		playBackgroundNow=False
-		 
-	if visitedToProcedure == True:
+
+	if toQuiz == False:
+		Quiz()
+	elif visitedToProcedure == True:
 		proceduresTutorial()
 		##Juice()
 	elif visitedToEquipment == True:
@@ -566,7 +742,7 @@ def safetyTutorial():
 		introduction()
 
 	#if hitFumeHood == True:
-		
+
 def tourOutput():
 	global visitedFumeHood
 	global visitedEyeWash 
@@ -578,7 +754,7 @@ def tourOutput():
 	global visitedTaps
 	global visitedFloor
 	global visitedWaste
-	
+
 	print('Equipment Checklist:')
 	print('FUME HOOD: ', visitedFumeHood)
 	print('EYE WASH STATION: ', visitedEyeWash)
@@ -603,7 +779,7 @@ def EnterProximity(e):
 	global hitTaps
 	global hitFloor
 	global hitWaste
-	
+
 	global fumeSensor
 	global eyeWashSensor
 	global nozzlesSensor
@@ -614,7 +790,7 @@ def EnterProximity(e):
 	global tapsSensor 
 	global floorSensor 
 	global wasteSensor
-		
+
 	if e.sensor == fumeSensor:
 		hitFumeHood = True
 		if visitedFumeHood == False:
@@ -678,7 +854,7 @@ def ExitProximity(e):
 	hitTaps = False
 	hitFloor = False
 	hitWaste = False
-	
+
 #handle entering and exiting proximity sensors 
 manager.onEnter(None,EnterProximity)
 manager.onExit(None, ExitProximity)
@@ -687,7 +863,7 @@ manager.onExit(None, ExitProximity)
 atexit.register(tourOutput)
 
 if IsThisVillanovaCAVE():
-    vizact.ontimer(0.5, safetyTutorial)
+    vizact.ontimer(0.4, safetyTutorial)
 else:
 	#vizact.onmousedown(viz.MOUSEBUTTON_LEFT,joystick_action)
 	viz.callback(viz.KEYDOWN_EVENT,onKeyDown)
