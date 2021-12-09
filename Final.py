@@ -12,7 +12,7 @@ viz.go()
 #Increase the Field of View
 viz.MainWindow.fov(60)
 
-chemLab = viz.addChild('chemlab50M.xyz.osgb')
+chemLab = viz.addChild('chemlab 50M.xyz.osgb')
 chemLab.disable(viz.LIGHTING)
 chemLab.setEuler(20,0,0)
 
